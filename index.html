@@ -1,0 +1,215 @@
+<title>Aniversario Colosal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap">
+
+<style>
+/* Las ocho piezas se apilan sin separación, en una columna continua.
+   La única interfaz es el riel de anclas a la derecha. */
+:root{
+  --ink:#0E100A;            /* sala, verde-negro */
+  --cream:#E8E1CF;
+  --gold:#C9A961;
+  --gold-hi:#E7D3A0;
+  --gold-deep:#A8813C;
+  --ff:"Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ink); color:var(--cream);
+  font-family:var(--ff); -webkit-font-smoothing:antialiased;
+}
+html{scroll-behavior:smooth}
+
+/* ---------- columna de piezas ---------- */
+.reel{
+  width:min(620px, 100%); margin-inline:auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.piece{
+  position:relative; margin:0; display:block;
+  overflow:hidden; isolation:isolate;
+}
+.piece img{width:100%; height:auto; display:block}
+
+/* destello que recorre cada pieza al entrar en pantalla */
+.piece::after{
+  content:""; position:absolute; inset:0; z-index:2; pointer-events:none; opacity:0;
+  background:linear-gradient(104deg,
+    transparent 42%, rgba(255,246,222,.05) 47%,
+    rgba(255,246,222,.22) 50%, rgba(255,246,222,.05) 53%, transparent 58%);
+  background-size:260% 100%; background-position:200% 0;
+}
+.piece.glint::after{animation:glint 2.3s cubic-bezier(.3,.55,.35,1) .15s both}
+@keyframes glint{
+  0%{opacity:0; background-position:200% 0}
+  18%{opacity:1}
+  82%{opacity:1}
+  100%{opacity:0; background-position:-110% 0}
+}
+
+/* ---------- llamado a la acción, dentro de la última pieza ---------- */
+.cta-zone{
+  position:absolute; left:0; right:0; bottom:0; z-index:3;
+  height:34%; display:flex; align-items:flex-end; justify-content:center;
+  padding:0 16px 5.5%;
+  background:linear-gradient(to top,
+    rgba(10,12,8,.94) 14%, rgba(10,12,8,.62) 52%, rgba(10,12,8,0) 100%);
+  pointer-events:none;
+}
+.cta{
+  pointer-events:auto; position:relative;
+  display:inline-flex; align-items:center; gap:10px;
+  padding:15px 26px; border-radius:999px; text-decoration:none;
+  color:#14160D; font-weight:800; font-size:clamp(11px,2.9vw,13px);
+  letter-spacing:.13em; text-transform:uppercase; white-space:nowrap;
+  background:linear-gradient(100deg,
+    var(--gold-deep) 0%, var(--gold-hi) 34%, var(--gold) 58%, var(--gold-deep) 100%);
+  background-size:230% 100%;
+  box-shadow:0 14px 34px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,245,215,.5);
+  animation:ctaSweep 5s linear infinite;
+  transition:transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s ease;
+}
+.cta::before{
+  content:""; position:absolute; inset:-7px; border-radius:999px; z-index:-1;
+  border:1px solid rgba(201,169,97,.45); animation:halo 3.2s ease-in-out infinite;
+}
+.cta:hover,.cta:focus-visible{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(0,0,0,.65), 0 0 28px rgba(201,169,97,.4), inset 0 0 0 1px rgba(255,245,215,.7);
+}
+.cta:focus-visible{outline:2px solid var(--gold-hi); outline-offset:6px}
+.cta svg{width:15px; height:15px; flex:none}
+@keyframes ctaSweep{0%{background-position:0 0} 100%{background-position:230% 0}}
+@keyframes halo{0%,100%{opacity:.25; transform:scale(1)} 50%{opacity:.7; transform:scale(1.035)}}
+
+/* ---------- cierre de marca ---------- */
+.sign{
+  display:flex; justify-content:center;
+  padding-block:clamp(46px,11vh,86px);
+}
+.sign img{width:clamp(72px,17vw,96px); height:auto; opacity:.92}
+
+/* ---------- riel de anclas ---------- */
+.rail{
+  position:fixed; z-index:9; top:50%; transform:translateY(-50%);
+  right:calc(8px + env(safe-area-inset-right, 0px));
+  display:flex; flex-direction:column; align-items:flex-end; gap:12px;
+  padding:12px 8px;
+}
+.rail a{
+  position:relative; display:flex; align-items:center; justify-content:flex-end;
+  width:26px; height:10px; text-decoration:none;
+}
+.rail i{
+  display:block; width:8px; height:8px; border-radius:50%;
+  border:1px solid rgba(201,169,97,.75); background:transparent;
+  transition:background .35s ease, transform .35s ease, border-color .35s ease;
+}
+.rail a[aria-current="true"] i{background:var(--gold); border-color:var(--gold-hi); transform:scale(1.5)}
+.rail span{
+  position:absolute; right:22px; white-space:nowrap;
+  font-size:9.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold-hi); background:rgba(14,16,10,.9);
+  padding:5px 9px; border-radius:4px;
+  opacity:0; transform:translateX(6px); pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.rail a:hover span,.rail a:focus-visible span{opacity:1; transform:translateX(0)}
+.rail a:focus-visible i{outline:2px solid var(--gold-hi); outline-offset:3px}
+@media (max-width:420px){
+  .rail{gap:10px; right:calc(4px + env(safe-area-inset-right, 0px))}
+  .rail span{display:none}
+}
+
+/* ---------- entrada de cada pieza ---------- */
+.js .piece{opacity:0; transform:translateY(26px)}
+.js .piece.live{
+  opacity:1; transform:none;
+  transition:opacity .9s cubic-bezier(.22,.61,.36,1), transform 1s cubic-bezier(.22,.61,.36,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .js .piece{opacity:1; transform:none}
+  .piece.glint::after,.cta,.cta::before{animation:none}
+  .piece::after{display:none}
+}
+</style>
+
+<div class="reel">
+  <figure class="piece" id="invitacion"><img src="01-invitacion.jpg?v=2" alt="Invitación al aniversario de Colosal, dentro de un sobre verde con sello dorado." fetchpriority="high"></figure>
+  <figure class="piece" id="pase"><img src="02-pase.jpg?v=2" alt="Tu pase de acceso, con el nombre del invitado y su habitación." loading="lazy"></figure>
+  <figure class="piece" id="spa"><img src="03-spa.jpg?v=2" alt="Experiencia Spa y Bienestar, de 12:30 a 3:00 p.m.: baños termales, masajes relajantes, faciales, cóctel de bienvenida y DJ en vivo exclusivo." loading="lazy"></figure>
+  <figure class="piece" id="checkin"><img src="04-checkin.jpg?v=2" alt="Check-in a las 3:00 p.m.: acomodación y descanso en las habitaciones." loading="lazy"></figure>
+  <figure class="piece" id="cena"><img src="05-cena.jpg?v=2" alt="Cena en la terraza, de 5:00 a 6:00 p.m., con espacio exclusivo de reconocimientos." loading="lazy"></figure>
+  <figure class="piece" id="libre"><img src="06-disfrutar.jpg?v=2" alt="A disfrutar: tiempo libre." loading="lazy"></figure>
+  <figure class="piece" id="brunch"><img src="07-brunch.jpg?v=2" alt="Brunch y check-out a la mañana siguiente, hasta las 10:00 a.m." loading="lazy"></figure>
+
+  <figure class="piece" id="indicaciones">
+    <img src="08-indicaciones.jpg?v=2" alt="Indicaciones adicionales. Dress code: formal para la cena en la terraza; trae tu traje de baño para el spa. Se suministran bata, chanclas y toalla de baño. Parqueadero disponible en Manila Parking." loading="lazy">
+    <div class="cta-zone">
+      <a class="cta" href="https://www.google.com/maps/search/?api=1&amp;query=Cra.%2043E%20%2311a6%2C%20El%20Poblado%2C%20Medell%C3%ADn%2C%20Antioquia" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Punto de encuentro
+      </a>
+    </div>
+  </figure>
+
+  <footer class="sign"><img src="logo-colosal.png?v=2" alt="Colosal"></footer>
+</div>
+
+<nav class="rail" id="rail" aria-label="Piezas de la experiencia"></nav>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+
+  var pieces = Array.prototype.slice.call(document.querySelectorAll('.piece'));
+  var labels = ['Invitación','Tu pase','Spa','Check-in','Cena','Tiempo libre','Brunch','Indicaciones'];
+  var rail   = document.getElementById('rail');
+
+  pieces.forEach(function (p, i) {
+    var a = document.createElement('a');
+    a.href = '#' + p.id;
+    a.setAttribute('aria-label', labels[i]);
+    a.innerHTML = '<span>' + labels[i] + '</span><i></i>';
+    rail.appendChild(a);
+  });
+  var links = Array.prototype.slice.call(rail.children);
+
+  // Revelado y destello: el brillo se repite cada vez que la pieza vuelve a entrar.
+  var reveal = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('live');
+        e.target.classList.remove('glint');
+        void e.target.offsetWidth;
+        e.target.classList.add('glint');
+      } else {
+        e.target.classList.remove('glint');
+      }
+    });
+  }, { threshold: 0.18 });
+
+  // Marca en el riel la pieza que cruza el centro de la pantalla.
+  var current = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var i = pieces.indexOf(e.target);
+        links.forEach(function (a, n) { a.setAttribute('aria-current', n === i ? 'true' : 'false'); });
+      }
+    });
+  }, { rootMargin: '-48% 0px -48% 0px', threshold: 0 });
+
+  pieces.forEach(function (p) { reveal.observe(p); current.observe(p); });
+
+  pieces[0].classList.add('live');
+  links[0].setAttribute('aria-current', 'true');
+})();
+</script>
